@@ -27,8 +27,8 @@ export async function getAdsUrls(
 
     try {
         // set cookies for filter session
-        console.log("Run filter query");
-        console.log(searchToQuery(search));
+        // console.log("Run filter query");
+        // console.log(searchToQuery(search));
         await axios.post(
             getFullUrl(search.url),
             getUrlEncodedPayload(searchToQuery(search)),
@@ -37,14 +37,14 @@ export async function getAdsUrls(
     } catch (e) { /* expected exception as final http status will be 302, not 200 */ }
 
     let urls: string[] = [];
-    console.log("Get first result page");
+    // console.log("Get first result page");
     await axios.get(getFullUrl(search.url))
         .then(response => {
             const page = cheerio.load(response.data);
             const links = page("a[name=\"nav_id\"]").toArray()
                 .map(el => el.attribs.href)
                 .slice(1, -1);
-            console.log(`Found ${links.length} more page(s)`);
+            // console.log(`Found ${links.length} more page(s)`);
             urls = urls.concat(getLinksFromPage(page));
 
             return Promise.all(links
@@ -64,7 +64,7 @@ export async function getAdsUrls(
 
 function addRequestCookies(cookieJar: CookieJar) {
     return function(request: AxiosRequestConfig) {
-        // console.log('Starting Request', request);
+        // // console.log('Starting Request', request);
         return {
             ...request,
             headers: {
@@ -76,16 +76,16 @@ function addRequestCookies(cookieJar: CookieJar) {
 }
 
 function updateCookies(response: AxiosResponse<any>, cookieJar: CookieJar) {
-    console.log(response.status);
-    console.log(response.headers);
+    // console.log(response.status);
+    // console.log(response.headers);
     if (response.headers["set-cookie"]) {
-        console.log(response.headers["set-cookie"]);
+        // console.log(response.headers["set-cookie"]);
         response.headers["set-cookie"].forEach(
             cookie => cookieJar.addRawEntry(cookie),
         );
     }
-    console.log('Request headers:', response.request._header);
-    // console.log('Response headers:', response.headers);
+    // console.log('Request headers:', response.request._header);
+    // // console.log('Response headers:', response.headers);
     return response;
 };
 
