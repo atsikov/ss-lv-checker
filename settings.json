@@ -1,0 +1,11 @@
+{
+    "storage": "json",
+    "queryIntervalSec": 600,
+    "search": {
+        "url": "https://www.ss.com/ru/real-estate/flats/riga/centre/hand_over/filter/",
+        "priceMin": 400,
+        "priceMax": 550,
+        "roomsMin": 2,
+        "squareMin": 45
+    }
+}
